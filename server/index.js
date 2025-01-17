@@ -5,10 +5,11 @@ const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const authRouter = require('./routers/authRouter');
-
+const productRouter = require('./routers/productRouter');
+const app = express();
+ 
 require('dotenv').config({ path: './.env' }); // Specify path to your .env file
 
-const app = express();
 
 app.use(cors());
 app.use(helmet());
@@ -23,8 +24,7 @@ mongoose.connect(process.env.MONGO_URI)
     .catch((err) => console.error('MongoDB connection error:', err));
 
 app.use('/api/auth', authRouter);
-
-// app.use('/api/posts', postsRouter);
+app.use('/api', productRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Backend server start on port 8000`);

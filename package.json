@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "alertifyjs": "^1.14.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^16.4.7",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "nodemailer": "^6.9.16",
     "nodemon": "^3.1.7",
     "sweetalert2": "^11.14.5"

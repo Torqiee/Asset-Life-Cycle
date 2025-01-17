@@ -28,13 +28,13 @@ exports.signup = async (request, response) => {
 		const newUser = new User({
 			email,
 			password: hashedPassword,
-            phone, 
-            companyName,
-            fullName,
-            nik,
-            idCardImage,
-            username,
-            selfieIdCardImage
+      phone, 
+      companyName,
+      fullName,
+      nik,
+      idCardImage,
+      username,
+      selfieIdCardImage
 		});
 		const result = await newUser.save();
 		result.password = undefined;
@@ -82,7 +82,6 @@ exports.signin = async (request, response) => {
     }
 };
   
-
 exports.signout = async (request, response) => {
     try {
         response
@@ -121,12 +120,13 @@ exports.sendVerificationCode = async (request, response) => {
               <div style="font-family: Arial, sans-serif; background-color: #f9f9f9; padding: 20px; text-align: center;">
                   <div style="max-width: 500px; margin: 0 auto; background: #ffffff; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); overflow: hidden;">
                       <div style="background-color: #14427E; color: white; padding: 20px;">
-                          <h3 style="margin: 0; font-size: 24px;">Verification Code</h3>
+                          <h5 style="margin: 0; font-size: 20px;">Verification Code</h5>
                       </div>
-                      <div style="padding: 20px; color: #333;">
-                          <h5 style="font-size: 16px; margin: 0 0 20px; text-decoration: none;">Hello there, ${email}</h5>
-                          <h5 style="font-size: 16px; margin: 0 0 20px;">Your OTP for verification is:</h5>
-                          <p style="font-size: 24px; font-weight: bold; color: #14427E; margin: 0 0 20px;">${codeValue}</p>
+                      <div style="padding: 20px; color: #000000;">
+                          <h5 style="font-size: 16px; margin: 0 0 20px; text-decoration: none; color: #000000;">
+                            Hello there, ${email}</h5>
+                          <h5 style="font-size: 16px; margin: 0 0 20px; color: #000000;">Your OTP for verification is:</h5>
+                          <p style="font-size: 24px; font-weight: bold; color: #133E87; margin: 0 0 20px;">${codeValue}</p>
                           <p style="font-size: 14px; color: #666;">This code is valid for 1 minute. Please do not share it with anyone.</p>
                       </div>
                       <div style="background-color: #f1f1f1; color: #666; padding: 10px; font-size: 12px;">
@@ -230,12 +230,12 @@ exports.verifyVerificationCode = async (request, response) => {
             verified: existingUser.verified,
           },
           process.env.TOKEN_SECRET,
-          { expiresIn: '8h' }
+          { expiresIn: '1h' }
         );
   
         response
           .cookie('Authorization', 'Bearer ' + token, {
-            expires: new Date(Date.now() + 8 * 3600000),
+            expires: new Date(Date.now() + 1 * 3600000),
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
           })

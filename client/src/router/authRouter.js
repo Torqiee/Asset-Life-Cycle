@@ -1,11 +1,11 @@
-import Login from '../views/Login.vue';
-import SendOTP from '../views/SendOTP.vue';
-import RegisterOne from '../views/RegisterOne.vue';
-import RegisterTwo from '../views/RegisterTwo.vue';
-import ForgotPass from '../views/ForgotPass.vue';
-import ForgotPassOTP from '../views/ForgotPassOTP.vue';
-import SetPass from '../views/SetPass.vue';
-import UpdatedPasswordSuccess from '../views/UpdatedPasswordSuccess.vue';
+import Login from '../views/Authenticate/Login.vue';
+import SendOTP from '../views/Authenticate/SendOTP.vue';
+import RegisterOne from '../views/Registration/RegisterOne.vue';
+import RegisterTwo from '../views/Registration/RegisterTwo.vue';
+import ForgotPass from '../views/ResetPass/ForgotPass.vue';
+import ForgotPassOTP from '../views/ResetPass/ForgotPassOTP.vue';
+import SetPass from '../views/ResetPass/SetPass.vue';
+import UpdatedPasswordSuccess from '../views/ResetPass/UpdatedPasswordSuccess.vue';
 import Swal from 'sweetalert2';
 
 // Utility to read cookies

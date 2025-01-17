@@ -1,16 +1,16 @@
 <template>
     <div class="container d-flex justify-content-center align-items-center min-vh-100 min-vw-100 p-0" style="background-color: #ececec;">
         <div class="row border rounded-5 p-3 bg-white box-area justify-content-center">
-            <div class="col-md-6 box">
+            <div class="col-md-7 box">
                 <div class="row justify-content-center align-items-center">
-                    <img src="../assets/alert-circle.png" class="mb-5" alt="" style="width: 135px; height: 110px;">
+                    <img src="./assets/help-circle.svg" class="mb-5" alt="" style="width: 135px; height: 110px;">
                     <div class="text-center mb-3">
-                        <h3 class="fs-4 mb-4 fw-bold">Oh no.. where are we?</h3>
+                        <h3 class="fs-2 mb-4 fw-bold">Oh no.. where are we?</h3>
                         <p class="fw-semibold" style="color: #989898;">The page you are looking for is not found.</p>
                     </div> 
-                    <div class="input-group my-3">
+                    <div class="row input-group my-3 justify-center">
                         <button 
-                            class="btn btn-lg w-100 fs-5 text-white fw-semibold" 
+                            class="btn btn-lg w-75 fs-5 text-white fw-semibold" 
                             style="background-color: #133E87;" 
                             @click="goBack"
                         >

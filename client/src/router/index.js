@@ -1,11 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import authRouter from './authRouter'; // Import the auth routes
+import projectRouter from './projectRouter'; // Import the project routes
 import Dashboard from '@/views/Dashboard.vue';
-import IdCardPhoto from '@/views/IdCardPhoto.vue';
-import SelfieId from '@/views/SelfieId.vue';
-import IdCard from '@/views/IdCard.vue';
+import IdCardPhoto from '@/views/Registration/IdCardPhoto.vue';
+import SelfieId from '@/views/Registration/SelfieId.vue';
+import ConfirmRegist from '@/views/Registration/ConfirmRegist.vue';
 import Verify from '@/views/Verify.vue';
 import NotFound from '@/views/NotFound.vue';
+import Sidebar from '@/views/components/Sidebar.vue';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 // Utility to read cookies
@@ -27,14 +29,19 @@ const otherRoutes = [
     component: SelfieId,
   },
   {
-    path: '/IdCard',
-    name: 'Idcard',
-    component: IdCard,
+    path: '/confirm-registration',
+    name: 'Confirm Registration',
+    component: ConfirmRegist,
   },
   {
     path: '/Verify',
     name: 'Verify',
     component: Verify,
+  },
+  {
+    path: '/sidebar',
+    name: 'Sidebar',
+    component: Sidebar,
   },
   {
     path: '/dashboard',
@@ -52,7 +59,7 @@ const otherRoutes = [
 // Create the router instance
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [...authRouter, ...otherRoutes], // Merge auth routes with other routes
+  routes: [...authRouter, ...projectRouter, ...otherRoutes], // Merge auth routes with other routes
 });
 
 // Add a navigation guard
