@@ -6,6 +6,15 @@ const mongoose = require('mongoose');
 const bodyParser = require("body-parser");
 const authRouter = require('./routers/authRouter');
 const productRouter = require('./routers/productRouter');
+
+const boqRouter = require('./routers/Boq/boqRouter');
+const hardwareRouter = require('./routers/Boq/hardwareRouter');
+const softwareRouter = require('./routers/Boq/softwareRouter');
+const serviceRouter = require('./routers/Boq/serviceRouter');
+
+const projectRouter = require('./routers/Project/projectRouter');
+const orderRouter = require('./routers/Project/orderRouter');
+
 const app = express();
  
 require('dotenv').config({ path: './.env' }); // Specify path to your .env file
@@ -26,6 +35,14 @@ mongoose.connect(process.env.MONGO_URI)
 app.use('/api/auth', authRouter);
 app.use('/api', productRouter);
 
+app.use('/api', boqRouter);
+app.use('/api', hardwareRouter);
+app.use('/api', softwareRouter);
+app.use('/api', serviceRouter);
+
+app.use('/api', projectRouter);
+app.use('/api', orderRouter);
+
 app.listen(process.env.PORT, () => {
-    console.log(`Backend server start on port 8000`);
+    console.log(`Backend server started on port 8000`);
 });

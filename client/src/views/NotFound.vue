@@ -6,7 +6,7 @@
                     <img src="./assets/help-circle.svg" class="mb-5" alt="" style="width: 135px; height: 110px;">
                     <div class="text-center mb-3">
                         <h3 class="fs-2 mb-4 fw-bold">Oh no.. where are we?</h3>
-                        <p class="fw-semibold" style="color: #989898;">The page you are looking for is not found.</p>
+                        <p class="fw-semibold" style="color: #989898;">The page you're looking for is not found.</p>
                     </div> 
                     <div class="row input-group my-3 justify-center">
                         <button 

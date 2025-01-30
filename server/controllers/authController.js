@@ -230,12 +230,12 @@ exports.verifyVerificationCode = async (request, response) => {
             verified: existingUser.verified,
           },
           process.env.TOKEN_SECRET,
-          { expiresIn: '1h' }
+          { expiresIn: '3h' }
         );
   
         response
           .cookie('Authorization', 'Bearer ' + token, {
-            expires: new Date(Date.now() + 1 * 3600000),
+            expires: new Date(Date.now() + 3 * 3600000),
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
           })
@@ -430,3 +430,50 @@ exports.verifyUserAlreadyRegistered = async (request, response) => {
     }
 };
   
+exports.getCurrentUser = (request, response) => {
+  const { userId, username, role } = request; // Ensure userId and username are being passed correctly from the middleware
+
+  if (!userId || !username) {
+    return response.status(400).json({ success: false, message: 'User information is missing' });
+  }
+
+  return response.status(200).json({
+    success: true,
+    data: { userId, username, role },
+    message: 'User data fetched successfully',
+  });
+};
+
+exports.getAllUsers = async (request, response) => {
+  try {
+    const users = await User.find({}, '-password'); // Exclude the password field
+    response.status(200).json({ success: true, data: users });
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    response.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+exports.updateUserRole = async (request, response) => {
+  const { userId } = request.params;
+  const { role } = request.body;
+
+  if (!['User', 'Admin'].includes(role)) {
+    return response.status(400).json({ success: false, message: 'Invalid role' });
+  }
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return response.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.role = role;
+    await user.save();
+
+    response.status(200).json({ success: true, message: `Role updated to ${role}` });
+  } catch (error) {
+    console.error('Error updating role:', error);
+    response.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};

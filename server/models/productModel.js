@@ -17,11 +17,13 @@ const productSchema = mongoose.Schema(
       required: [true, 'Product price is required'],
     },
     createdBy: {
-      type: String, // Store username as a string
+      type: mongoose.Schema.Types.ObjectId, // Reference to the User model
+      ref: 'User',
       required: true,
     },
     updatedBy: {
-      type: String, // Store username as a string
+      type: mongoose.Schema.Types.ObjectId, // Reference to the User model
+      ref: 'User',
     },
   },
   {

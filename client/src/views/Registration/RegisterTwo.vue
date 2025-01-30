@@ -48,7 +48,7 @@
             <p v-if="errorMessages.companyName" class="text-danger mt-2">{{ errorMessages.companyName }}</p>
           </div>
           <div class="col-md-6 mb-2">
-            <label for="nik" class="form-label fw-semibold">NIK (Nomor Induk Kependudukan)</label>
+            <label for="nik" class="form-label fw-semibold">NIK (Nomor Identitas Karyawan)</label>
             <input
               v-model="nik"
               type="text"

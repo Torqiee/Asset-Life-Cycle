@@ -221,7 +221,7 @@ const verifyOTP = async () => {
         });
         localStorage.removeItem("currentUserEmail");
         localStorage.removeItem("otpCooldown");
-        router.push('/dashboard');
+        router.push('/boq');
       }, 2000); // Simulate a delay for the loading screen
     } else {
       Swal.fire({

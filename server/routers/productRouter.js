@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/products', authMiddleware, productController.createProduct);
 
 // Get all products
-router.get('/products', productController.getProducts);
+router.get('/products', authMiddleware, productController.getProducts);
 
 // Get a single product by ID
 router.get('/products/:id', productController.getProduct);

@@ -8,6 +8,7 @@ import ConfirmRegist from '@/views/Registration/ConfirmRegist.vue';
 import Verify from '@/views/Verify.vue';
 import NotFound from '@/views/NotFound.vue';
 import Sidebar from '@/views/components/Sidebar.vue';
+import Unauthorized from '@/views/Unauthorized.vue';
 import Swal from 'sweetalert2'; // Import SweetAlert2
 
 // Utility to read cookies
@@ -53,6 +54,11 @@ const otherRoutes = [
     path: '/:pathMatch(.*)*', // Catch-all route for undefined paths
     name: 'NotFound',
     component: NotFound, // Display a 404 component
+  },
+  {
+    path: '/unauthorized',
+    name: 'Unauthorized',
+    component: Unauthorized,
   },
 ];
 
