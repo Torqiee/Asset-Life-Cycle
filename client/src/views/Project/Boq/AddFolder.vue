@@ -74,15 +74,44 @@
         const token = Cookies.get('authToken');
         if (token) {
           try {
-            const response = await api.post('/api/folder', this.formData, {
+            await api.post('/api/folder', this.formData, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
             });
-            this.$router.push('/boq'); // Redirect to the main BoQ page after successful folder creation
+
+            // Fetch the latest list of folders
+            this.fetchFolders();
+
+            // Find the latest folder (assuming it's the last one created)
+            setTimeout(() => {
+              if (this.folders.length > 0) {
+                const latestFolder = this.folders[this.folders.length - 1];
+                if (latestFolder && latestFolder._id) {
+                  this.$router.push(`/hardware/${latestFolder._id}`);
+                } else {
+                  console.error("Latest folder ID is missing.");
+                }
+              }
+            }, 500); // Adding a small delay to ensure data is fetched
           } catch (error) {
             console.error("Error creating folder:", error);
           }
+        }
+      },
+
+      fetchFolders() {
+        const token = Cookies.get('authToken');
+        if (token) {
+          api.get('/api/folders', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+          .then(response => {
+            this.folders = response.data.data;
+          })
+          .catch(error => console.error("Error fetching folders:", error));
         }
       },
     },

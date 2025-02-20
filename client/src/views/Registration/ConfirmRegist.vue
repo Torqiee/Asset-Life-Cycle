@@ -1,51 +1,34 @@
 <template>
-  <div class="bg-white min-h-screen flex flex-col items-center justify-center text-center">
-    <h2 class="text-[32px] font-bold">Review and Submit Your Data</h2>
+  <div class="container min-vh-100 d-flex flex-column align-items-center justify-content-center">
+    <div class="card shadow-lg p-4 w-50">
+      <h2 class="text-center fw-bold mb-4">Review and Submit Your Data</h2>
 
-    <div class="mt-8 text-left w-[80%] bg-gray-100 p-4 rounded-lg">
-      <p class="text-lg font-bold text-gray-700">Collected Data:</p>
-      <ul class="mt-4 space-y-2 text-gray-700">
-        <!-- Display only non-image data -->
-        <li v-for="(value, key) in filteredData" :key="key">
-          <span class="font-bold">{{ key }}:</span> {{ value }}
-        </li>
-      </ul>
-
-      <!-- Image Preview for idCardImage -->
-      <div v-if="idCardImagePreview" class="mt-6">
-        <p class="text-lg font-bold text-gray-700">ID Card Image Preview:</p>
-        <div class="flex justify-center items-center mt-4">
-          <img
-            :src="idCardImagePreview"
-            alt="ID Card Preview"
-            class="rounded-lg shadow-lg border border-gray-300"
-            style="width: auto; height: auto; max-width: 100%; max-height: 300px; object-fit: contain;"
-          />
-        </div>
+      <div class="mb-3">
+        <h5 class="fw-bold">Collected Data</h5>
+        <ul class="list-group">
+          <li class="list-group-item" v-for="(value, key) in filteredData" :key="key">
+            <strong>{{ key }}:</strong> {{ value }}
+          </li>
+        </ul>
       </div>
 
-      <!-- Image Preview for selfieIdCardImage -->
-      <div v-if="selfieIdCardImagePreview" class="mt-6">
-        <p class="text-lg font-bold text-gray-700">Selfie Image Preview:</p>
-        <div class="flex justify-center items-center mt-4">
-          <img
-            :src="selfieIdCardImagePreview"
-            alt="Selfie Preview"
-            class="rounded-lg shadow-lg border border-gray-300"
-            style="width: auto; height: auto; max-width: 100%; max-height: 300px; object-fit: contain;"
-          />
-        </div>
+      <div v-if="idCardImagePreview" class="mb-3 text-center">
+        <h5 class="fw-bold">ID Card Image</h5>
+        <img :src="idCardImagePreview" alt="ID Card Preview" class="img-thumbnail shadow-sm" style="max-height: 250px;" />
       </div>
+
+      <div v-if="selfieIdCardImagePreview" class="mb-3 text-center">
+        <h5 class="fw-bold">Selfie Image</h5>
+        <img :src="selfieIdCardImagePreview" alt="Selfie Preview" class="img-thumbnail shadow-sm" style="max-height: 250px;" />
+      </div>
+
+      <button @click="submitData" class="btn btn-primary btn-lg w-100 mt-3">
+        Submit
+      </button>
     </div>
-
-    <button
-      @click="submitData"
-      class="w-[470px] h-[60px] pb-1 text-3xl mt-[37px] font-bold text-white bg-[#133E87] rounded-lg transition hover:bg-[#1e61d6]"
-    >
-      Submit
-    </button>
   </div>
 </template>
+
 
 <script>
 import { onMounted, ref, computed } from "vue";

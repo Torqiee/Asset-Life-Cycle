@@ -1,3 +1,4 @@
+import UserAccount from '@/views/User/UserAccount.vue';
 import Login from '../views/Authenticate/Login.vue';
 import SendOTP from '../views/Authenticate/SendOTP.vue';
 import RegisterOne from '../views/Registration/RegisterOne.vue';
@@ -127,6 +128,11 @@ const authRouter = [
     path: '/updated-password-success',
     name: 'Updated Password Success',
     component: UpdatedPasswordSuccess,
+  },
+  {
+    path: '/account',
+    name: 'Account Credentials',
+    component: UserAccount,
   },
   {
     path: '/OTPSend',

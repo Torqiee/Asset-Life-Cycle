@@ -5,11 +5,12 @@ import Dashboard from '@/views/Dashboard.vue';
 import IdCardPhoto from '@/views/Registration/IdCardPhoto.vue';
 import SelfieId from '@/views/Registration/SelfieId.vue';
 import ConfirmRegist from '@/views/Registration/ConfirmRegist.vue';
-import Verify from '@/views/Verify.vue';
-import NotFound from '@/views/NotFound.vue';
+import NotFound from '@/views/components/NotFound.vue';
 import Sidebar from '@/views/components/Sidebar.vue';
-import Unauthorized from '@/views/Unauthorized.vue';
+import Unauthorized from '@/views/components/Unauthorized.vue';
 import Swal from 'sweetalert2'; // Import SweetAlert2
+import Mcreatehw from '@/views/Mcreatehw.vue';
+import WaitingRole from '@/views/Authenticate/WaitingRole.vue';
 
 // Utility to read cookies
 function getCookie(name) {
@@ -35,11 +36,6 @@ const otherRoutes = [
     component: ConfirmRegist,
   },
   {
-    path: '/Verify',
-    name: 'Verify',
-    component: Verify,
-  },
-  {
     path: '/sidebar',
     name: 'Sidebar',
     component: Sidebar,
@@ -48,18 +44,28 @@ const otherRoutes = [
     path: '/dashboard',
     name: 'Dashboard',
     component: Dashboard,
-    meta: { requiresAuth: true }, // Mark as a protected route
+    meta: { requiresAuth: true },
   },
   {
-    path: '/:pathMatch(.*)*', // Catch-all route for undefined paths
+    path: '/:pathMatch(.*)*',
     name: 'NotFound',
-    component: NotFound, // Display a 404 component
+    component: NotFound,
   },
   {
     path: '/unauthorized',
     name: 'Unauthorized',
     component: Unauthorized,
   },
+  {
+    path: '/testing',
+    name: 'Testing',
+    component: Mcreatehw,
+  },
+  {
+    path: '/waiting-approval',
+    name: 'WaitingApproval',
+    component: WaitingRole
+  }
 ];
 
 // Create the router instance
@@ -70,7 +76,8 @@ const router = createRouter({
 
 // Add a navigation guard
 router.beforeEach((to, _from, next) => {
-  const token = getCookie('authToken'); // Check if the user has a token in cookies
+  const token = getCookie('authToken'); // Get auth token
+  const userRole = localStorage.getItem('userRole'); // Retrieve user role from local storage
 
   if (to.matched.some((record) => record.meta.requiresAuth) && !token) {
     Swal.fire({
@@ -83,7 +90,19 @@ router.beforeEach((to, _from, next) => {
       timer: 8000,
       timerProgressBar: true,
     });
-    next({ path: '/' }); // Redirect to the login page
+    next({ path: '/' }); // Redirect to login page
+  } else if (userRole === 'New' && to.path !== '/waiting-approval') {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Account Pending Approval',
+      text: 'Please wait for your account to be approved.',
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 5000,
+      timerProgressBar: true,
+    });
+    next({ path: '/waiting-approval' }); // Redirect "New" users to custom page
   } else {
     next(); // Allow navigation
   }

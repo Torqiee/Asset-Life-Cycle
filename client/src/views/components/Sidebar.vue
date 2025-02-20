@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar position-fixed top-0 bottom-0 border-end m-md-2 rounded-4" style="background-color: #EFEDEF;">
+    <div class="sidebar collapsed position-fixed top-0 bottom-0 border-end m-md-2 rounded-4" style="background-color: #EFEDEF;">
         <div class="d-flex align-items-center px-3 pt-4">
             <a href="#" class="sidebar-logo fw-bold text-decoration-none fs-4" style="text-wrap: nowrap; color: #133E87;">Data Center</a>
             <i class="sidebar-toggle ri-arrow-left-circle-line ms-auto fs-5 d-none d-md-block"></i>
@@ -23,28 +23,35 @@
                 <ul class="sidebar-dropdown-menu py-2">
                     <li class="sidebar-dropdown-menu-item border-start">
                         <router-link :to="'/boq'">
-                            <img src="../assets/circle.svg" class="sidebar-menu-item-icon" style="width: 10px;" />
                             <span class="fw-semibold ms-1">BoQ Management</span>
                         </router-link>
                     </li>
                     <li class="sidebar-dropdown-menu-item">
                         <router-link :to="'/project'">
-                            <img src="../assets/circle.svg" class="sidebar-menu-item-icon" style="width: 10px;" />
                             <span class="fw-semibold ms-1">Project Management</span>
                         </router-link>
                     </li>
                 </ul>
             </li>
             <li class="sidebar-menu-item">
-                <a href="#">
+                <router-link :to="'/activity'">
                     <img src="../assets/tray.svg" class="sidebar-menu-item-icon" style="width: 30px;" />
                     <span class="fw-semibold ps-2">Activity</span>
-                </a>
+                </router-link>
             </li>
             <li class="sidebar-menu-item">
                 <router-link :to="'/users'">
                     <img src="../assets/person.svg" class="sidebar-menu-item-icon" style="width: 30px;" />
                     <span class="fw-semibold ps-2">User Management</span>
+                </router-link>
+            </li>
+
+            <li class="sidebar-menu-divider mt-5 mb-2 fw-semibold">Settings</li>
+            <li class="sidebar-menu-item">
+                <router-link :to="'/account'">
+                    <img src="../assets/profile.svg" class="sidebar-menu-item-icon" style="width: 30px;" />
+                    <span class="fw-semibold ps-2">Account</span>
+                    
                 </router-link>
             </li>
         </ul>

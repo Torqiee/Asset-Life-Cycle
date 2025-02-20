@@ -2,16 +2,27 @@ const mongoose = require('mongoose');
 
 const poSchema = mongoose.Schema(
   {
-    siteId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Site', // Reference to the Site model
-      required: true,
-    },
     site: {
       type: String,
       required: [true, 'Site is required'],
       trim: true,
-    }
+    },
+    startDate: {
+      type: Date, 
+      required: true 
+    },
+    endDate: {
+      type: Date, 
+      required: true 
+    },
+    orderId: { 
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: 'Order' 
+    },
+    projectId: { 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Project' 
+    },
   },
   {
     timestamps: true, // automatically adds createdAt and updatedAt fields

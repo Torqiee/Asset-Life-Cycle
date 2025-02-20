@@ -11,6 +11,8 @@ router.post('/signout', authController.signout);
 
 router.get('/user', authMiddleware, authController.getCurrentUser);
 router.get('/users', authMiddleware, authController.getAllUsers);
+router.patch('/user', authMiddleware, authController.updateUser);
+router.get('/users/role/:role', authMiddleware, authController.getUsersByRole);
 router.patch('/users/:userId/role', authMiddleware, authController.updateUserRole);
 
 router.patch(

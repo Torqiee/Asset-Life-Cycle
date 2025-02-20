@@ -11,6 +11,13 @@ import Submit from '../views/Project/Boq/Submit.vue';
 import ProjectMain from '../views/Project/Project/ProjectMain.vue';
 import AddProject from '../views/Project/Project/AddProject.vue';
 import Order from '../views/Project/Project/Order.vue';
+import ApprovalProject from '../views/Project/Project/Approval.vue';
+import RejectionProject from '../views/Project/Project/Rejection.vue';
+import SubmitProject from '../views/Project/Project/Submit.vue';
+
+import MainActivity from '../views/Project/Activity/MainActivity.vue';
+
+import Mcreatehw from '../views/Mcreatehw.vue';
 
 import { checkAdminRole } from '../router/authGuard'; // Import the reusable function
 
@@ -85,6 +92,42 @@ const projectRouter = [
     path: '/order/:projectId',
     name: 'Purchase Order',
     component: Order,
+    // beforeEnter: checkAdminRole
+  },  
+  {
+    path: '/approval-project/:projectId',
+    name: 'Approval in Project',
+    component: ApprovalProject,
+    beforeEnter: checkAdminRole
+  },  
+  {
+    path: '/rejection-project/:projectId',
+    name: 'Rejection in Project',
+    component: RejectionProject,
+    beforeEnter: checkAdminRole
+  },  
+  {
+    path: '/submit-project/:projectId/:orderId?',
+    name: 'Submit in Project',
+    component: SubmitProject
+  },
+
+  //  Activity Management
+  {
+    path: '/activity',
+    name: 'Activity in Project',
+    component: MainActivity
+  },
+
+
+
+
+
+
+  {
+    path: '/modal',
+    name: 'Hardware Modal',
+    component: Mcreatehw,
     // beforeEnter: checkAdminRole
   },  
 ]

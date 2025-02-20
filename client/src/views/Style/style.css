@@ -214,6 +214,7 @@ body {
 }
 .sidebar-dropdown-menu {
     padding-left: 2rem;
+    display: none; /* Ensures dropdowns are closed by default */
 }
 .sidebar-dropdown-menu .sidebar-dropdown-menu {
     padding-left: 1rem;
@@ -222,6 +223,7 @@ body {
 .sidebar::-webkit-scrollbar {
     display: none; /* Hide scrollbar in Chrome, Safari, and Edge */
 }
+
 /* end: Sidebar */
 
 

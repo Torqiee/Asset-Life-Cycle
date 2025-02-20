@@ -17,8 +17,8 @@ const boqSchema = mongoose.Schema({
   },
   status: {  // Added status field
     type: String,
-    enum: ['On Review', 'Approved', 'Rejected', 'Pending'],  // Example statuses
-    default: 'Pending',
+    enum: ['On Review', 'Approved', 'Rejected', 'Draft'],  // Example statuses
+    default: 'Draft',
   }
 },{ 
   timestamps: true 

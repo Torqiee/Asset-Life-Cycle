@@ -4,10 +4,6 @@ const Folder = require('../../models/Boq/boqModel');
 // Create a new folder
 exports.createFolder = async (request, response) => {
   try {
-    // Check user role
-    if (request.user.role !== 'Admin') {
-      return response.status(403).json({ message: 'Unauthorized: Only Admins can create folder.' });
-    }
 
     const folder = new Folder({ ...request.body, createdBy: request.username });
     const savedFolder = await folder.save();
@@ -81,11 +77,6 @@ exports.updateFolderStatus = async (request, response) => {
     const { id } = request.params;
     const { status } = request.body;
 
-    // Check user role
-    // if (request.user.role !== 'Admin') {
-    //   return response.status(403).json({ message: 'Unauthorized: Only Admins can update the folder status.' });
-    // }
-
     // Validate status
     if (!['On Review', 'Approved', 'Rejected'].includes(status)) {
       return response.status(400).json({ message: 'Invalid status value.' });
@@ -113,16 +104,44 @@ exports.updateFolderStatus = async (request, response) => {
 
 // Delete folder
 exports.deleteFolder = async (request, response) => {
-    try {
-      // Check user role
-      if (request.user.role !== 'Admin') {
-        return response.status(403).json({ message: 'Unauthorized: Only Admins can delete the folder.' });
-      }
-
-      const deletedFolder = await Folder.findByIdAndDelete(request.params.id);
-      if (!deletedFolder) return response.status(404).json({ success: false, message: 'Folder not found' });
-      response.status(200).json({ success: true, message: 'Folder deleted successfully' });
-    } catch (error) {
-      response.status(500).json({ success: false, message: error.message });
+  try {
+    // Check user role
+    if (request.user.role !== 'Admin') {
+      return response.status(403).json({ message: 'Unauthorized: Only Admins can delete the folder.' });
     }
-  };
+
+    const deletedFolder = await Folder.findByIdAndDelete(request.params.id);
+    if (!deletedFolder) return response.status(404).json({ success: false, message: 'Folder not found' });
+    response.status(200).json({ success: true, message: 'Folder deleted successfully' });
+  } catch (error) {
+    response.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// Get BOQs based on status
+exports.getBoqsByStatus = async (request, response) => {
+  const { status } = request.params;
+
+  try {
+    // Validate the status (optional, but prevents invalid queries)
+    const validStatuses = ['On Review', 'Approved', 'Rejected'];
+    if (!validStatuses.includes(status)) {
+      return response.status(400).json({ success: false, message: 'Invalid status value' });
+    }
+
+    // Find all BOQs with the specified status
+    const boqs = await Folder.find({ status });
+
+    // Check if BOQs were found
+    if (boqs.length === 0) {
+      return response.status(404).json({ success: false, message: `No BOQs found with the status: ${status}` });
+    }
+
+    // Return the BOQs
+    response.status(200).json({ success: true, data: boqs });
+  } catch (error) {
+    console.error('Error fetching BOQs by status:', error);
+    response.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+

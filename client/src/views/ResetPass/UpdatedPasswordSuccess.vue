@@ -3,7 +3,7 @@
         <div class="row border rounded-5 p-3 bg-white box-area justify-content-center">
             <div class="col-md-6 box">
                 <div class="row justify-content-center align-items-center">
-                    <img src="../assets/checkmark.png" class="mb-5" alt="" style="width: 135px; height: 110px;">
+                    <img src="../assets/checkmark.svg" class="mb-5" alt="" style="width: 135px; height: 110px;">
                     <div class="text-center mb-3">
                         <h3 class="fs-4 mb-4 fw-bold">Password updated</h3>
                         <p class="fw-semibold" style="color: #989898;">Your password has been successfully changed.</p>

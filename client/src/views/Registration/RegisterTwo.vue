@@ -155,13 +155,8 @@ export default {
       valid = false;
     }
 
-    if (!this.nik.trim() || this.nik.length !== 16) {
-      this.errorMessages.nik = 'Must be 16 digits.';
-      valid = false;
-    }
-
-    if (!this.fullName.trim() || this.fullName.length < 6) {
-      this.errorMessages.fullName = 'Required at least 6 letter.';
+    if (!this.nik.trim()) {
+      this.errorMessages.nik = 'Nik is required.';
       valid = false;
     }
 

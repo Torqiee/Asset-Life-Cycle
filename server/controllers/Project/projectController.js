@@ -4,9 +4,6 @@ const Project = require('../../models/Project/projectModel');
 exports.createProject = async (request, response) => {
     try {
       // Check user role
-      if (request.user.role !== 'Admin') {
-        return response.status(403).json({ message: 'Unauthorized: Only Admins can create projects.' });
-      }
   
       // Extract form data from request body
       const { projectName, nodinNumber, nodinDate, startDate, endDate } = request.body;
@@ -134,9 +131,6 @@ exports.updateProjectStatus = async (request, response) => {
 exports.deleteProject = async (request, response) => {
     try {
       // Check user role
-      if (request.user.role !== 'Admin') {
-        return response.status(403).json({ message: 'Unauthorized: Only Admins can delete the Project.' });
-      }
 
       const deletedProject = await Project.findByIdAndDelete(request.params.id);
       if (!deletedProject) return response.status(404).json({ success: false, message: 'Project not found' });

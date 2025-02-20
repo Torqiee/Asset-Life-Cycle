@@ -1,30 +1,26 @@
 <template>
-    <Sidebar />
-    <!-- start: Main -->
+  <Sidebar />
     <main class="ms-md-2">
       <div class="p-2">
-        <!-- start: Navbar -->
         <nav class="px-5 pb-4 rounded-top-4" style="background-color: #EFEDEF; padding-top: 2.5rem;">
           <i class="ri-menu-line sidebar-toggle me-3 d-block d-md-none"></i>
           <div class="d-flex flex-column">
-            <h3 class="fw-bold fs-3 me-auto mb-md-2" style="color: #133E87;">Approval Bill of Quantity</h3>
+            <h3 class="fw-bold fs-3 me-auto">Rejection Bill of Quantity</h3>
           </div>
           <Navbar />
         </nav>
-        <!-- end: Navbar -->
   
-        <!-- start: Content -->
         <div class="py-4 px-4 rounded-bottom-4" style="background-color: #EFEDEF;">
+          <ApprovalInfo :folderId="$route.params.folderId" />
           <div class="row g-3 mx-3 px-4 pb-4 rounded-4" style="background-color: #EAE8EA;">
   
-            <!-- Hardware -->
-            <div class="d-flex align-items-center py-2 mb-md-2">
+            <div class="d-flex align-items-center py-3 mb-md-2">
               <img src="../../assets/layers.png" alt="logo" style="width: 40px;" />
-              <h1 class="fs-4 fw-bold mb-md-1 ms-3">Hardware Data</h1>
+              <h1 class="fs-4 fw-bold ms-3">Hardware Data</h1>
             </div>
   
-            <div class="table-responsive px-2">
-              <table class="table align-middle">
+            <div class="table-responsive px-2" style="max-height: 300px; overflow-y: auto;">
+              <table class="table align-middle" style="white-space: nowrap;">
                 <thead class="text-white align-middle" style="background-color: #133E87;">
                   <tr>
                     <th class="fw-semibold px-3 rounded-start-3" scope="col">No.</th>
@@ -52,16 +48,21 @@
                   </tr>
                 </tbody>
               </table>
+              <!-- Display message if no hardware data -->
+              <div v-if="hardwareList.length === 0" class="text-center py-3">
+                <p class="text-muted">No Hardware data available.</p>
+              </div>
             </div>
   
-            <!-- Software -->
-            <div class="d-flex align-items-center py-2 mb-md-2">
+            <hr>
+
+            <div class="d-flex align-items-center py-3 mb-md-2">
               <img src="../../assets/software.png" alt="logo" style="width: 40px;" />
-              <h1 class="fs-4 fw-bold mb-md-1 ms-3">Software Data</h1>
+              <h1 class="fs-4 fw-bold ms-3">Software Data</h1>
             </div>
   
-            <div class="table-responsive px-2">
-              <table class="table align-middle">
+            <div class="table-responsive px-2" style="max-height: 300px; overflow-y: auto;">
+              <table class="table align-middle" style="white-space: nowrap;">
                 <thead class="text-white align-middle" style="background-color: #133E87;">
                   <tr>
                     <th class="fw-semibold px-3 rounded-start-3" scope="col">No.</th>
@@ -87,15 +88,19 @@
                   </tr>
                 </tbody>
               </table>
+              <div v-if="softwareList.length === 0" class="text-center py-3">
+                <p class="text-muted">No Software data available.</p>
+              </div>
             </div>
+
+            <hr>
   
-            <!-- Service -->
-            <div class="d-flex align-items-center py-2 mb-md-2">
+            <div class="d-flex align-items-center py-3 mb-md-2">
               <img src="../../assets/settings.svg" alt="logo" style="width: 40px;" />
-              <h1 class="fs-4 fw-bold mb-md-1 ms-3">Service Data</h1>
+              <h1 class="fs-4 fw-bold ms-3">Service Data</h1>
             </div>
-            <div class="table-responsive px-2">
-              <table class="table align-middle">
+            <div class="table-responsive px-2" style="max-height: 300px; overflow-y: auto;">
+              <table class="table align-middle" style="white-space: nowrap;">
                 <thead class="text-white align-middle" style="background-color: #133E87;">
                   <tr>
                     <th class="fw-semibold px-3 rounded-start-3" scope="col">No.</th>
@@ -119,7 +124,10 @@
                   </tr>
                 </tbody>
               </table>
-              <!-- Approval Section -->
+              <div v-if="serviceList.length === 0" class="text-center py-3">
+                <p class="text-muted">No Service data available.</p>
+              </div>
+              
               <div class="text-start py-4">
                 <input 
                   type="checkbox" 
@@ -136,7 +144,6 @@
               </div>
             </div>
           </div>
-  
         </div>
         <!-- end: Content -->
       </div>
@@ -146,6 +153,7 @@
   <script>
   import Sidebar from '../../components/Sidebar.vue';
   import Navbar from '../../components/Navbar.vue';
+  import ApprovalInfo from '../../components/Approval.vue';
   import api from '../../../api';
   import Cookies from 'js-cookie';
   
@@ -153,7 +161,8 @@
     name: "Approval",
     components: {
       Sidebar,
-      Navbar
+      Navbar,
+      ApprovalInfo
     },
     data() {
       return {
@@ -219,7 +228,15 @@
             { headers: { Authorization: `Bearer ${token}` } }
           )
           .then(response => {
-            alert('BoQ rejected successfully!');
+            Swal.fire({
+              icon: 'success',
+              title: 'BoQ Rejected',
+              text: 'The BoQ has been rejected successfully.',
+              toast: true,
+              position: 'top-end',
+              showConfirmButton: false,
+              timer: 2000
+            });            
             this.$router.push('/boq'); // Redirect to main page
           })
           .catch(error => {
@@ -233,6 +250,9 @@
       this.fetchHardware();
       this.fetchSoftware();
       this.fetchService();
+      this.$nextTick(() => {
+        initializeSidebar();
+      });
     },
   };
   </script>

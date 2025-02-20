@@ -1,7 +1,7 @@
 <template>
   <div id="otpPage" class="container d-flex justify-content-center align-items-center min-vh-100 min-vw-100" style="background-color: #ececec;">
     <div class="row border rounded-5 p-3 bg-white box-area justify-content-center">
-        <div class="col-md-6 box">
+        <div class="col-md-7 box">
             <div class="d-flex justify-content-center flex-column align-items-center">
                 <div class="text-center mb-3">
                   <div class="row justify-content-center">
@@ -29,7 +29,7 @@
                 <div class="input-group justify-content-center my-2">
                   <button
                     @click="verifyOTP"
-                    class="btn btn-lg w-100 fs-5 text-white fw-semibold"
+                    class="btn btn-lg w-100 fs-5 text-white fw-semibold mx-5"
                     style="background-color: #133E87;"
                     :disabled="isLoading"
                   >
@@ -219,8 +219,8 @@ const verifyOTP = async () => {
           timerProgressBar: true,
           showConfirmButton: false,
         });
-        localStorage.removeItem("currentUserEmail");
         localStorage.removeItem("otpCooldown");
+        localStorage.removeItem("currentUserEmail");
         router.push('/boq');
       }, 2000); // Simulate a delay for the loading screen
     } else {

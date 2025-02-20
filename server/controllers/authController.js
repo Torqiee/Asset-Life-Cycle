@@ -3,6 +3,7 @@ const { signupSchema, signinSchema, acceptCodeSchema, changePasswordSchema, acce
 const User = require('../models/usersModel');
 const { doHash, doHashValidation, hmacProcess } = require('../utils/hashing');
 const transport = require('../middlewares/sendMail');
+// const { doHash, doHashValidation } = require('../utils/hashing');
 require('dotenv').config({ path: './.env' }); 
 
 exports.signup = async (request, response) => {
@@ -230,12 +231,12 @@ exports.verifyVerificationCode = async (request, response) => {
             verified: existingUser.verified,
           },
           process.env.TOKEN_SECRET,
-          { expiresIn: '3h' }
+          { expiresIn: '5h' }
         );
   
         response
           .cookie('Authorization', 'Bearer ' + token, {
-            expires: new Date(Date.now() + 3 * 3600000),
+            expires: new Date(Date.now() + 5 * 3600000),
             httpOnly: process.env.NODE_ENV === 'production',
             secure: process.env.NODE_ENV === 'production',
           })
@@ -430,19 +431,42 @@ exports.verifyUserAlreadyRegistered = async (request, response) => {
     }
 };
   
-exports.getCurrentUser = (request, response) => {
-  const { userId, username, role } = request; // Ensure userId and username are being passed correctly from the middleware
+exports.getCurrentUser = async (request, response) => {
+  try {
+    const userId = request.userId;
 
-  if (!userId || !username) {
-    return response.status(400).json({ success: false, message: 'User information is missing' });
+    if (!userId) {
+      return response.status(400).json({ success: false, message: 'User ID is missing' });
+    }
+
+    const user = await User.findById(userId).select('username role email phone companyName fullName nik idCardImage selfieIdCardImage');
+
+    if (!user) {
+      return response.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    return response.status(200).json({
+      success: true,
+      data: {
+        userId: user._id,
+        username: user.username,
+        role: user.role,
+        email: user.email,
+        phone: user.phone || '',
+        companyName: user.companyName || '',
+        fullName: user.fullName || '',
+        nik: user.nik || '',
+        idCardImage: user.idCardImage || '',
+        selfieIdCardImage: user.selfieIdCardImage || '',
+      },
+      message: 'User data fetched successfully',
+    });
+
+  } catch (error) {
+    return response.status(500).json({ success: false, message: 'Server error', error: error.message });
   }
-
-  return response.status(200).json({
-    success: true,
-    data: { userId, username, role },
-    message: 'User data fetched successfully',
-  });
 };
+
 
 exports.getAllUsers = async (request, response) => {
   try {
@@ -458,7 +482,7 @@ exports.updateUserRole = async (request, response) => {
   const { userId } = request.params;
   const { role } = request.body;
 
-  if (!['User', 'Admin'].includes(role)) {
+  if (!['User', 'Admin', 'Regional', 'Vendor', 'Manager'].includes(role)) {
     return response.status(400).json({ success: false, message: 'Invalid role' });
   }
 
@@ -475,5 +499,66 @@ exports.updateUserRole = async (request, response) => {
   } catch (error) {
     console.error('Error updating role:', error);
     response.status(500).json({ success: false, message: 'Internal server error' });
+  }
+};
+
+exports.updateUser = async (request, response) => {
+  try {
+    const userId = request.userId;
+    const { username, email, phone, companyName, fullName, nik } = request.body;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return response.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    if (username) user.username = username;
+    if (email) user.email = email;
+    if (phone) user.phone = phone;
+    if (companyName) user.companyName = companyName;
+    if (fullName) user.fullName = fullName;
+    if (nik) user.nik = nik;
+    await user.save();
+
+    return response.status(200).json({
+      success: true,
+      message: 'Profile updated successfully',
+      data: {
+        username: user.username,
+        email: user.email,
+        phone: user.phone,
+        companyName: user.companyName,
+        fullName: user.fullName,
+        nik: user.nik,
+      },
+    });
+  } catch (error) {
+    return response.status(500).json({ success: false, message: 'Server error', error: error.message });
+  }
+};
+
+// Get user based on role
+exports.getUsersByRole = async (request, response) => {
+  const { role } = request.params;
+
+  try {
+      // Validate the role (optional, depending on your requirements)
+      if (!['User', 'Admin', 'Regional', 'Vendor'].includes(role)) {
+          return response.status(400).json({ success: false, message: 'Invalid role' });
+      }
+
+      // Find all users with the specified role
+      const users = await User.find({ role }).select('-password'); // Exclude the password field
+
+      // Check if users were found
+      if (users.length === 0) {
+          return response.status(404).json({ success: false, message: `No users found with the role: ${role}` });
+      }
+
+      // Return the users
+      response.status(200).json({ success: true, data: users });
+  } catch (error) {
+      console.error('Error fetching users by role:', error);
+      response.status(500).json({ success: false, message: 'Internal server error' });
   }
 };

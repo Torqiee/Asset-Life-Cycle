@@ -1,79 +1,49 @@
-$(document).ready(function() {
-    // start: Sidebar
-    $('.sidebar-dropdown-menu').slideUp('fast')
-
-    $('.sidebar-menu-item.has-dropdown > a, .sidebar-dropdown-menu-item.has-dropdown > a').click(function(e) {
-        e.preventDefault()
-
-        if(!($(this).parent().hasClass('focused'))) {
-            $(this).parent().parent().find('.sidebar-dropdown-menu').slideUp('fast')
-            $(this).parent().parent().find('.has-dropdown').removeClass('focused')
-        }
-
-        $(this).next().slideToggle('fast')
-        $(this).parent().toggleClass('focused')
-    })
-
-    $('.sidebar-toggle').click(function() {
-        $('.sidebar').toggleClass('collapsed')
-
-        $('.sidebar.collapsed').mouseleave(function() {
-            $('.sidebar-dropdown-menu').slideUp('fast')
-            $('.sidebar-menu-item.has-dropdown, .sidebar-dropdown-menu-item.has-dropdown').removeClass('focused')
-        })
-    })
-
-    $('.sidebar-overlay').click(function() {
-        $('.sidebar').addClass('collapsed')
-
-        $('.sidebar-dropdown-menu').slideUp('fast')
-        $('.sidebar-menu-item.has-dropdown, .sidebar-dropdown-menu-item.has-dropdown').removeClass('focused')
-    })
-
-    if(window.innerWidth < 768) {
-        $('.sidebar').addClass('collapsed')
+function initializeSidebar() {
+    // Ensure sidebar starts collapsed on mobile
+    if (window.innerWidth < 768) {
+        $('.sidebar').addClass('collapsed');
     }
-    // end: Sidebar
 
+    // Sidebar Toggle
+    $('.sidebar-toggle').off('click').on('click', function () {
+        let sidebar = $('.sidebar');
 
-
-    // start: Charts
-    const labels = [
-        'January',
-        'February',
-        'March',
-        'April',
-        'May',
-        'June',
-    ];
-
-    const salesChart = new Chart($('#sales-chart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                backgroundColor: '#6610f2',
-                data: [5, 10, 5, 2, 20, 30, 45],
-            }]
-        },
-        options: {
-            plugins: {
-                legend: {
-                    display: false
-                }
-            }
+        if (sidebar.hasClass('collapsed')) {
+            sidebar.removeClass('collapsed');
+        } else {
+            sidebar.addClass('collapsed');
+            $('.sidebar-dropdown-menu').slideUp('fast');
+            $('.sidebar-menu-item.has-dropdown, .sidebar-dropdown-menu-item.has-dropdown').removeClass('focused');
         }
-    })
+    });
 
-    const visitorsChart = new Chart($('#visitors-chart'), {
-        type: 'doughnut',
-        data: {
-            labels: ['Children', 'Teenager', 'Parent'],
-            datasets: [{
-                backgroundColor: ['#6610f2', '#198754', '#ffc107'],
-                data: [40, 60, 80],
-            }]
+    // Dropdown Menu Toggle
+    $('.sidebar-menu-item.has-dropdown > a, .sidebar-dropdown-menu-item.has-dropdown > a').off('click').on('click', function (e) {
+        e.preventDefault();
+
+        if (!$(this).parent().hasClass('focused')) {
+            $(this).closest('.sidebar').find('.sidebar-dropdown-menu').slideUp('fast');
+            $(this).closest('.sidebar').find('.has-dropdown').removeClass('focused');
         }
-    })
-    // end: Charts
-})
+
+        $(this).next('.sidebar-dropdown-menu').slideToggle('fast');
+        $(this).parent().toggleClass('focused');
+    });
+
+    // Sidebar Overlay (for closing sidebar on mobile)
+    $('.sidebar-overlay').off('click').on('click', function () {
+        $('.sidebar').addClass('collapsed');
+        $('.sidebar-dropdown-menu').slideUp('fast');
+        $('.sidebar-menu-item.has-dropdown, .sidebar-dropdown-menu-item.has-dropdown').removeClass('focused');
+    });
+}
+
+// Initialize Sidebar on Page Load
+$(document).ready(function () {
+    initializeSidebar();
+
+    // Reinitialize when navigating in AJAX/Vue Router
+    $(document).on('page:load turbolinks:load ajaxComplete', function () {
+        initializeSidebar();
+    });
+});

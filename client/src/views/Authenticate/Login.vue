@@ -7,6 +7,8 @@
             <img src="../assets/logo.png" alt="" style="width: 45px;" />
             <h2 class="fw-bold fs-3 ps-4">Data center</h2>
           </div>
+          
+          <!-- Email Input -->
           <div class="input-group mb-3">
             <input
               type="text"
@@ -16,15 +18,36 @@
               style="background-color: #E4E2E4; height: 3rem;"
             />
           </div>
+
+          <!-- Password Input with Toggle -->
           <div class="input-group mb-1">
             <input
-              type="password"
+              :type="showPassword ? 'text' : 'password'"
               class="form-control form-control-lg fs-6 text-start"
-              placeholder="Password"
+              placeholder="password"
               v-model="password"
               style="background-color: #E4E2E4; height: 3rem;"
             />
+            <!-- Button to toggle password visibility -->
+            <button class="btn btn-outline" type="button" @click="togglePassword" style="background-color: #E4E2E4;">
+              <img
+                v-if="showPassword"
+                src="../assets/eye-open.svg"
+                alt="Eye Open"
+                class="me-2"
+                style="width: 20px; height: 20px;"
+              />
+              <img
+                v-else
+                src="../assets/eye-closed.svg"
+                alt="Eye Closed"
+                class="me-2"
+                style="width: 20px; height: 20px;"
+              />
+            </button>
           </div>
+
+          <!-- Login Button -->
           <div class="input-group my-3">
             <button
               class="btn btn-lg w-100 fs-5 text-white fw-semibold"
@@ -36,6 +59,8 @@
               <span v-else>Login</span>
             </button>
           </div>
+
+          <!-- Forgot Password -->
           <div class="input-group mb-5 justify-content-end">
             <div class="forgot">
               <small>
@@ -50,6 +75,8 @@
               </small>
             </div>
           </div>
+
+          <!-- Register Link -->
           <div class="text-center">
             <small class="fw-semibold fs-6">
               Don't have an account?
@@ -78,7 +105,13 @@ import Swal from 'sweetalert2';
 const email = ref('');
 const password = ref('');
 const isLoading = ref(false);
+const showPassword = ref(false); // Track password visibility
 const router = useRouter();
+
+// Function to toggle password visibility
+const togglePassword = () => {
+  showPassword.value = !showPassword.value;
+};
 
 function getCookie(name) {
   const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));

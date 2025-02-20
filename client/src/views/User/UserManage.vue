@@ -23,7 +23,7 @@
           </div>
 
           <div class="table-responsive px-2">
-            <table class="table align-middle">
+            <table class="table align-middle" style="white-space: nowrap;">
               <thead class="text-white align-middle" style="background-color: #133E87;">
                 <tr>
                   <th class="fw-semibold px-3 rounded-start-3" scope="col">No.</th>
@@ -42,9 +42,24 @@
                   <td class="px-3">{{ user.username }}</td>
                   <td class="px-3">{{ user.role || 'User' }}</td>
                   <td class="px-3 text-center">
-                    <div class="d-flex justify-content-center gap-2">
-                      <a @click="updateRole(user._id, 'Admin')" class="btn text-white rounded-3 px-3 py-1" style="background-color: #133E87;">Promote</a>
-                      <a @click="updateRole(user._id, 'User')" class="btn rounded-3 btn-danger px-3 py-1">Demote</a>
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Select Role
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <a @click="updateRole(user._id, 'Admin')" class="px-3 py-1">Admin</a>
+                        </li>
+                        <li>
+                          <a @click="updateRole(user._id, 'Vendor')" class="px-3 py-1">Vendor</a>
+                        </li>
+                        <li>
+                          <a @click="updateRole(user._id, 'Regional')" class="px-3 py-1">Regional</a>
+                        </li>
+                        <li>
+                          <a @click="updateRole(user._id, 'Manager')" class="px-3 py-1">Manager</a>
+                        </li>
+                      </ul>
                     </div>
                   </td>
                 </tr>

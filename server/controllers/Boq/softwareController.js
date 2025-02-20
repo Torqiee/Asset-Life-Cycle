@@ -5,7 +5,7 @@ exports.createSoftware = async (request, response) => {
     try {
         // Check user role
         if (request.user.role !== 'Admin') {
-            return response.status(403).json({ message: 'Unauthorized: Only Admins can add the software data.' });
+            return response.status(403).json({ message: 'Unauthorized: Only Admin can create the software data.' });
         }
 
         const { folderId } = request.params; // Get folderId from URL params
@@ -37,7 +37,7 @@ exports.updateSoftware = async (request, response) => {
     try {
         // Check user role
         if (request.user.role !== 'Admin') {
-            return response.status(403).json({ message: 'Unauthorized: Only Admins can edit the software data.' });
+            return response.status(403).json({ message: 'Unauthorized: Only Admin can edit the software data.' });
         }
 
         const updatedSoftware = await Software.findByIdAndUpdate(
@@ -57,7 +57,7 @@ exports.deleteSoftware = async (request, response) => {
     try {
         // Check user role
         if (request.user.role !== 'Admin') {
-            return response.status(403).json({ message: 'Unauthorized: Only Admins can delete the software data.' });
+            return response.status(403).json({ message: 'Unauthorized: Only Admin can delete the software data.' });
         }
 
         const deletedSoftware = await Software.findByIdAndDelete(request.params.id);

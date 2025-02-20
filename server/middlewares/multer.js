@@ -21,21 +21,29 @@ const storage = multer.diskStorage({
 
 // File Filter to Allow Specific File Types
 const fileFilter = (req, file, cb) => {
-  const allowedFileTypes = /pdf|jpg|jpeg|png/; // Allowed extensions
+  const allowedFileTypes = /pdf|jpg|jpeg|png|xlsx/; // Allowed extensions
+  const allowedMimeTypes = [
+    'application/pdf',
+    'image/jpeg',
+    'image/jpg',
+    'image/png',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' // Correct MIME type for .xlsx
+  ];
+
   const extname = allowedFileTypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = allowedFileTypes.test(file.mimetype);
+  const mimetype = allowedMimeTypes.includes(file.mimetype);
 
   if (extname && mimetype) {
     return cb(null, true);
   } else {
-    return cb(new Error('Only PDF, JPG, JPEG, and PNG files are allowed!'));
+    return cb(new Error('Only PDF, JPG, JPEG, PNG, and XLSX files are allowed!'));
   }
 };
 
 // Multer Upload Middleware
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
+  limits: { fileSize: 10 * 1024 * 1024 }, // Limit file size to 5MB
   fileFilter,
 });
 

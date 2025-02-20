@@ -10,15 +10,15 @@ export async function checkAdminRole(to, from, next) {
           Authorization: `Bearer ${token}`,
         },
       });
-      const userRole = response.data.data.role; // Fetch the user's role
-      if (userRole === 'Admin') {
-        next(); // Allow access
+      const userRole = response.data.data.role;
+      if (userRole === 'Manager') {
+        next();
       } else {
-        next({ name: 'Unauthorized' }); // Redirect to Unauthorized page
+        next({ name: 'Unauthorized' });
       }
     } catch (error) {
       console.error('Error fetching user role:', error);
-      next({ name: 'Unauthorized' }); // Redirect if API call fails
+      next({ name: 'Unauthorized' });
     }
   } else {
     next({ name: 'Unauthorized' }); // Redirect if no token is found

@@ -7,13 +7,18 @@ const bodyParser = require("body-parser");
 const authRouter = require('./routers/authRouter');
 const productRouter = require('./routers/productRouter');
 
+// Boq Router
 const boqRouter = require('./routers/Boq/boqRouter');
 const hardwareRouter = require('./routers/Boq/hardwareRouter');
 const softwareRouter = require('./routers/Boq/softwareRouter');
 const serviceRouter = require('./routers/Boq/serviceRouter');
 
+// Project Router
 const projectRouter = require('./routers/Project/projectRouter');
 const orderRouter = require('./routers/Project/orderRouter');
+const siteRouter = require('./routers/Project/siteRouter');
+const uploadRouter = require('./routers/uploadRouter');
+
 
 const app = express();
  
@@ -28,6 +33,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(bodyParser.json({ limit: "50mb" })); // Adjust the limit as needed
 app.use(bodyParser.urlencoded({ limit: "50mb", extended: true }));
 
+// console.log('MONGO_URI:', process.env.MONGO_URI);
 mongoose.connect(process.env.MONGO_URI)
     .then(() => console.log('Backend connected to MongoDB'))
     .catch((err) => console.error('MongoDB connection error:', err));
@@ -42,6 +48,9 @@ app.use('/api', serviceRouter);
 
 app.use('/api', projectRouter);
 app.use('/api', orderRouter);
+app.use('/api', siteRouter);
+
+app.use('/api', uploadRouter);
 
 app.listen(process.env.PORT, () => {
     console.log(`Backend server started on port 8000`);

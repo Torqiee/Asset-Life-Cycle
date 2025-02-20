@@ -5,7 +5,7 @@ exports.createHardware = async (request, response) => {
     try {
         // Check user role
         if (request.user.role !== 'Admin') {
-            return response.status(403).json({ message: 'Unauthorized: Only Admins can add the hardware data.' });
+            return response.status(403).json({ message: 'Unauthorized: Only Users can create the hardware data.' });
         }
 
         const { folderId } = request.params; // Get folderId from URL params
@@ -37,7 +37,7 @@ exports.updateHardware = async (request, response) => {
     try {
         // Check user role
         if (request.user.role !== 'Admin') {
-            return response.status(403).json({ message: 'Unauthorized: Only Admins can edit the hardware data.' });
+            return response.status(403).json({ message: 'Unauthorized: Only Admin can edit the hardware data.' });
         }
 
         const updatedHardware = await Hardware.findByIdAndUpdate(
@@ -57,7 +57,7 @@ exports.deleteHardware = async (request, response) => {
     try {
         // Check user role
         if (request.user.role !== 'Admin') {
-            return response.status(403).json({ message: 'Unauthorized: Only Admins can delete the hardware data.' });
+            return response.status(403).json({ message: 'Unauthorized: Only Admin can delete the hardware data.' });
         }
 
         const deletedHardware = await Hardware.findByIdAndDelete(request.params.id);

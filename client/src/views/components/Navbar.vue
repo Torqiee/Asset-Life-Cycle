@@ -36,7 +36,7 @@ import api from '../../api'; // Adjust the import path to your `api` instance
             })
             .catch(error => {
             console.error(error);
-            this.username = 'Error fetching username'; // Fallback message
+            this.username = 'Failed fetching username'; // Fallback message
             });
         }
         }
