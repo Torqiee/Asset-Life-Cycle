@@ -22,7 +22,7 @@
             <router-link :to="{ path: `/hardware/${$route.params.folderId}` }" class="breadcrumb-item" style="color: #133E87;">
               <span class="d-flex align-middle fw-semibold">
                 <img src="../../assets/step.svg" class="me-3" style="width: 25px;">
-                2. <span class="ms-3">Review and Submit Data</span>
+                2. <span class="ms-3">Input data</span>
               </span>
             </router-link>
           </ol>
@@ -53,7 +53,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="(hardware, index) in hardwareList" :key="hardware._id" class="border-1 border-secondary">
+                  <tr v-for="(hardware, index) in hardwareList" :key="hardware._id">
                     <td class="px-3">{{ index + 1 }}</td>
                     <td class="px-3">Hardware</td>
                     <td class="px-3">{{ hardware.type }}</td>

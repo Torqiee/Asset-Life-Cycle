@@ -111,7 +111,7 @@
                   class="btn rounded-3 fw-medium ms-auto px-3 py-1 text-white" 
                   style="background-color: #12753a"
                 >
-                  Submit
+                  Proceed
                 </router-link>
                 <button 
                   v-else-if="folderStatus == 'Draft' && (hardwareList.length === 0 && softwareList.length === 0 && serviceList.length === 0)" 
@@ -119,7 +119,7 @@
                   style="color: #133E87; cursor: not-allowed;" 
                   disabled
                 >
-                  Submit
+                  Proceed
                 </button>
               </div>
             </div>

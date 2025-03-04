@@ -44,10 +44,10 @@
                       {{ order.vendorName }} ({{ order.vendorCompany }})
                     </td>
                     <td class="px-3">
-                      <a @click="openAddSiteModal(order._id)" class="fw-semibold py-1 text-start" style="color: #0E2D65; cursor: pointer;">
-                        View site
-                      </a>
-                    </td>
+                        <a @click="openAddSiteModal(order._id)" class="fw-semibold py-1 text-start" style="color: #0E2D65; cursor: pointer;">
+                          {{ order.siteCount }} Sites
+                        </a>
+                      </td>
                     <td v-if="projectStatus == 'Draft'" class="px-3 text-center">
                       <a @click="openEditOrderModal(order)" class="btn rounded-3 text-white px-3 py-0 me-2" style="background-color: #133E87;">
                         Edit
@@ -71,7 +71,7 @@
                   class="btn rounded-3 fw-medium ms-auto px-3 py-1 text-white" 
                   style="background-color: #0E2D65"
                 >
-                  Submit
+                  Proceed
                 </router-link>
                 <button 
                   v-else-if="projectStatus == 'Draft' && (orderList.length === 0 && siteList.length === 0)" 
@@ -79,7 +79,7 @@
                   style="color: #133E87; cursor: not-allowed;" 
                   disabled
                 >
-                  Submit
+                  Proceed
                 </button>
               </div>
             </div>
@@ -266,21 +266,23 @@ data() {
       nodinToRegDate: '',
       nodinToRegFile: null
     },
-      editingId: null, // To store the ID of the order being edited
-      projectStatus: '', // Store project status
+      editingId: null,
+      projectStatus: '',
   };
 },
 computed: {
   ordersWithVendorDetails() {
     return this.orderList.map(order => {
       const vendor = this.vendorList.find(v => v._id === order.vendor);
-      const boq = this.boqList.find(b => b._id === order.boqNumber); // Find the BOQ by ID
+      const boq = this.boqList.find(b => b._id === order.boqNumber);
+      const siteCount = this.siteList.filter(site => site.orderId === order._id).length; // Count sites for this order
       return {
         ...order,
         vendorName: vendor ? vendor.fullName || vendor.username : 'N/A',
         vendorCompany: vendor ? vendor.companyName : 'N/A',
         boqNumberData: boq ? boq.boqNumber : 'N/A',
         boqProjectName: boq ? boq.projectName : 'N/A',
+        siteCount: siteCount, // Add site count to the order object
       };
     });
   },

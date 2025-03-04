@@ -4,7 +4,7 @@
         <router-link :to="{ path: `/hardware/${folderId}` }" class="breadcrumb-item" style="color: #133E87;">
           <span class="d-flex align-middle fw-semibold">
             <img src="../assets/step.svg" class="me-3" style="width: 25px;">
-            1. <span class="ms-3">Hardware, Software, Service</span>
+            1. <span class="ms-3">Input data</span>
           </span>
         </router-link>
         <hr class="progress-hr mx-3 rounded-4" style="width: 6rem; border-width: 0.4rem; border-color: #133E87;">

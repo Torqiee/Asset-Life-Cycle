@@ -136,21 +136,21 @@
               <div v-if="serviceList.length === 0" class="text-center py-3">
                 <p class="text-muted">No Service data available.</p>
               </div>
+            </div>
 
-              <!-- Approval Section -->
-              <div class="text-start py-4">
-                <input 
-                  type="checkbox" 
-                  v-model="confirmApproval" 
-                  id="approvalCheck" 
-                />
-                <label for="approvalCheck" class="ms-2">I have completed my review of the BoQ data and am ready to approve it.</label>
-                <br>
-                <div class="text-center mt-5">
-                    <button class="btn btn-md text-white fw-medium px-5" :disabled="!confirmApproval" @click="approveBoq" style="background-color: #133E87;">
-                      Approve
-                    </button>
-                </div>
+            <!-- Approval Section -->
+            <div class="text-start py-4">
+              <input 
+                type="checkbox" 
+                v-model="confirmApproval" 
+                id="approvalCheck" 
+              />
+              <label for="approvalCheck" class="ms-2">I have completed my review of the BoQ data and am ready to approve it.</label>
+              <br>
+              <div class="text-center mt-5">
+                  <button class="btn btn-md text-white fw-medium px-5" :disabled="!confirmApproval" @click="approveBoq" style="background-color: #133E87;">
+                    Approve
+                  </button>
               </div>
             </div>
           </div>

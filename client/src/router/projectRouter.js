@@ -17,9 +17,7 @@ import SubmitProject from '../views/Project/Project/Submit.vue';
 
 import MainActivity from '../views/Project/Activity/MainActivity.vue';
 
-import Mcreatehw from '../views/Mcreatehw.vue';
-
-import { checkAdminRole } from '../router/authGuard'; // Import the reusable function
+import { checkAdminRole } from '../router/authGuard';
 
 const projectRouter = [
   {
@@ -34,35 +32,37 @@ const projectRouter = [
     path: '/boq',
     name: 'Main BoQ',
     component: BoqMain,
+    beforeEnter: checkAdminRole
   },
   {
     path: '/add-folder',
     name: 'Add Folder BoQ',
     component: AddFolder,
-    // beforeEnter: checkAdminRole
+    beforeEnter: checkAdminRole
   },
   {
     path: '/hardware/:folderId',
     name: 'Hardware in BoQ',
     component: BoqHardware,
-    // beforeEnter: checkAdminRole
+    beforeEnter: checkAdminRole
   },  
   {
     path: '/software/:folderId',
     name: 'Software in BoQ',
     component: BoqSoftware,
-    // beforeEnter: checkAdminRole
+    beforeEnter: checkAdminRole
   },
   {
     path: '/service/:folderId',
     name: 'Service in BoQ',
     component: BoqService,
-    // beforeEnter: checkAdminRole
+    beforeEnter: checkAdminRole
   },
   {
     path: '/submit/:folderId',
     name: 'Submit in BoQ',
-    component: Submit
+    component: Submit,
+    beforeEnter: checkAdminRole
   },  
   {
     path: '/approval/:folderId',
@@ -82,17 +82,19 @@ const projectRouter = [
     path: '/project',
     name: 'Main Project',
     component: ProjectMain,
+    beforeEnter: checkAdminRole
   },
   {
     path: '/add-project',
     name: 'Add Project',
     component: AddProject,
+    beforeEnter: checkAdminRole
   },
   {
     path: '/order/:projectId',
     name: 'Purchase Order',
     component: Order,
-    // beforeEnter: checkAdminRole
+    beforeEnter: checkAdminRole
   },  
   {
     path: '/approval-project/:projectId',
@@ -109,27 +111,17 @@ const projectRouter = [
   {
     path: '/submit-project/:projectId/:orderId?',
     name: 'Submit in Project',
-    component: SubmitProject
+    component: SubmitProject,
+    beforeEnter: checkAdminRole
   },
 
   //  Activity Management
   {
     path: '/activity',
     name: 'Activity in Project',
-    component: MainActivity
+    component: MainActivity,
+    beforeEnter: checkAdminRole
   },
-
-
-
-
-
-
-  {
-    path: '/modal',
-    name: 'Hardware Modal',
-    component: Mcreatehw,
-    // beforeEnter: checkAdminRole
-  },  
 ]
 
 export default projectRouter;

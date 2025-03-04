@@ -11,7 +11,7 @@ export async function checkAdminRole(to, from, next) {
         },
       });
       const userRole = response.data.data.role;
-      if (userRole === 'Manager') {
+      if (userRole === 'Manager' || userRole === 'Admin' || userRole === 'Vendor') {
         next();
       } else {
         next({ name: 'Unauthorized' });

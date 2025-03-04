@@ -35,7 +35,7 @@
                   <tr v-for="(order, index) in ordersWithVendorDetails" :key="order._id">
                     <td class="px-3">{{ index + 1 }}</td>
                     <td class="px-3">{{ order.orderNumber }}</td>
-                    <td class="px-3">{{ order.boqNumber }}</td>
+                    <td class="px-3">{{ order.boqProjectName }} | {{ order.boqNumberData }}</td>
                     <td class="px-3">
                       {{ order.vendorName }} ({{ order.vendorCompany }})
                     </td>
@@ -137,21 +137,17 @@ export default {
   },
   computed: {
     ordersWithVendorDetails() {
-      if (!this.userId) return [];
-
-      return this.orderList
-        .filter(order => {
-          const vendorId = order.vendor?._id || order.vendor;
-          return vendorId === this.userId;
-        })
-        .map(order => {
-          const vendor = this.vendorList.find(v => v._id === (order.vendor?._id || order.vendor));
-          return {
-            ...order,
-            vendorName: vendor ? vendor.fullName || vendor.username : 'N/A',
-            vendorCompany: vendor ? vendor.companyName : 'N/A',
-          };
-        });
+      return this.orderList.map(order => {
+        const vendor = this.vendorList.find(v => v._id === (order.vendor?._id || order.vendor));
+        const boq = this.boqList.find(b => b._id === order.boqNumber); // Find the BOQ by ID
+        return {
+          ...order,
+          vendorName: vendor ? vendor.fullName || vendor.username : 'N/A',
+          vendorCompany: vendor ? vendor.companyName : 'N/A',
+          boqNumberData: boq ? boq.boqNumber : 'N/A', // Add BOQ number data
+          boqProjectName: boq ? boq.projectName : 'N/A', // Add BOQ project name
+        };
+      });
     },
   },
   methods: {
@@ -217,6 +213,19 @@ export default {
         }
       }
     },
+    async fetchApprovedBoqs() {
+      const token = Cookies.get('authToken');
+      if (token) {
+        try {
+          const response = await api.get('/api/folder/status/Approved', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          this.boqList = response.data.data; // Store the list of approved BOQs
+        } catch (error) {
+          console.error('Error fetching approved BOQs:', error);
+        }
+      }
+    },
     openAddSiteModal(orderId) {
       this.modalTitle = "Site Data";
       this.siteData = {
@@ -252,6 +261,7 @@ export default {
       await this.fetchCurrentUser(); // Wait for current user ID to be fetched
       this.fetchOrder();
       this.fetchVendors();
+      this.fetchApprovedBoqs();
       this.$nextTick(() => {
         initializeSidebar();
       });

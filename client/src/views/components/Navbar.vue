@@ -1,7 +1,10 @@
 <template>
     <div class="dropdown ms-auto">
       <div class="d-flex align-items-center cursor-pointer">
-        <span class="me-3 d-none d-sm-block fs-5 fw-semibold">{{ username }}</span>
+        <div class="row text-end me-3">
+          <span class="d-none d-sm-block fs-5 fw-semibold">{{ username }}</span>
+          <p class="d-none d-sm-block fs-5 fw-semibold fs-6 text-secondary-emphasis">{{ role }}</p>
+        </div>
         <img
           class="navbar-profile-image border border-3 rounded-5 border-secondary"
           src="../assets/pfp.webp"
@@ -19,7 +22,8 @@ import api from '../../api'; // Adjust the import path to your `api` instance
     name: 'Navbar',
     data() {
       return {
-        username: ''
+        username: '',
+        role: ''
       };
     },
     methods: {
@@ -33,10 +37,12 @@ import api from '../../api'; // Adjust the import path to your `api` instance
             })
             .then(response => {
             this.username = response.data.data.username;
+            this.role = response.data.data.role;
             })
             .catch(error => {
             console.error(error);
             this.username = 'Failed fetching username'; // Fallback message
+            this.role = 'Failed fetching username'; // Fallback message
             });
         }
         }
